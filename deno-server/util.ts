@@ -38,6 +38,10 @@ export const isTDate = (obj: unknown): obj is TDate => {
   return true;
 };
 
+export const isOptionalTDate = (obj: unknown): obj is TDate | null => {
+  return obj === null || isTDate(obj);
+};
+
 const parseLongitude = (obj: unknown): Longitude => {
   if (!obj || !isLongitude(obj)) {
     throw new Error("Invalid longitude.");

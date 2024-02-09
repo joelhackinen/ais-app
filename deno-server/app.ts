@@ -1,7 +1,7 @@
 import { sql } from "./database.ts";
 import { Application, Router } from "./deps.ts";
 import { AISEntry } from "./types.ts";
-import { toAISEntry, isTDate} from "./util.ts";
+import { toAISEntry, isOptionalTDate } from "./util.ts";
 
 const app = new Application();
 const router = new Router();
@@ -11,14 +11,17 @@ router.get("/aisdata", async ({ request, response }) => {
   const startTime = searchParams.get("startTime");
   const endTime = searchParams.get("endTime");
 
-  // add validation to check that startTime <= endTime
-
-  if (!isTDate(startTime) || !isTDate(endTime)) {
-    response.body = { error: "Invalid time interval." };
+  if (!isOptionalTDate(startTime)) {
+    response.body = { error: "Invalid start time." };
     return response.status = 400;
   }
 
-  const rows = await sql`
+  if (!isOptionalTDate(endTime)) {
+    response.body = { error: "Invalid end time." };
+    return response.status = 400;
+  }
+
+  const rows = await sql<AISEntry[]>`
     SELECT
       to_char(basedatetime, 'YYYY-MM-DD"T"HH24:MI:SS') AS basedatetime,
       lat,
@@ -27,9 +30,9 @@ router.get("/aisdata", async ({ request, response }) => {
     FROM
       aisdata
     WHERE
-      basedatetime >= ${startTime}::TIMESTAMP
+      basedatetime >= COALESCE(${startTime}, '-infinity')::TIMESTAMP
         AND
-      basedatetime <= ${endTime}::TIMESTAMP;
+      basedatetime <= COALESCE(${endTime}, 'infinity')::TIMESTAMP;
   `;
   response.body = rows;
 });

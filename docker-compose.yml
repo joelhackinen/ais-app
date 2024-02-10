@@ -8,7 +8,7 @@ services:
     depends_on:
       - deno-server
     ports:
-      - 7800:7800
+      - "7800:7800"
 
   deno-server:
     build: deno-server
@@ -28,8 +28,21 @@ services:
     image: postgres:14.1
     restart: "no"
     volumes:
-      - ./ais-data.csv:/ais-data.csv:ro
+      - ./database/ais-data.csv:/ais-data.csv:ro
       - ./database/db-init.sql/:/docker-entrypoint-initdb.d/db-init.sql
     container_name: postgres
     env_file:
       - project.env
+  
+  react-app:
+    container_name: react-app-dev
+    image: react-app-dev
+    build:
+      context: ./react-app
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./react-app/:/usr/src/app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - deno-server

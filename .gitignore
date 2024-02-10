@@ -1,2 +1,5 @@
 .vscode
 app-cache
+output.css
+node_modules
+dist

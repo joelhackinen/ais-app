@@ -63,19 +63,18 @@ export default function Component() {
           </div>
         </div>
         <div className="flex flex-col md:flex-row gap-x-4 gap-y-2">
-        <div className="relative flex">
-          <SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500 dark:text-gray-400" />
-          <Input
-            id="imoField"
-            className="pl-8 w-[160px]"
-            placeholder="Search IMO..."
-            type="search"
-            ref={searchRef}
-          />
-        </div>
-        <Button onClick={handleSearch}>
-          Search vessels
-        </Button>
+          <div className="relative flex">
+            <SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500 dark:text-gray-400" />
+            <Input
+              className="pl-8 w-[160px]"
+              placeholder="Search IMO..."
+              type="search"
+              ref={searchRef}
+            />
+          </div>
+          <Button onClick={handleSearch}>
+            Search vessels
+          </Button>
         </div>
       </header>
       <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-10">

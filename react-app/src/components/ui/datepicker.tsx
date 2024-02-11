@@ -27,11 +27,14 @@ export const DatePicker = React.forwardRef<DatePickerMethods, DatePickerProps>((
   const [timeValue, setTimeValue] = React.useState<string>('00:00:00');
 
   const handleTimeChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-    const time = e.target.value;
-    console.log(time)
+    let time = e.target.value;
+
     if (!date) {
       setTimeValue(time);
       return;
+    }
+    if (time.split(':').length !== 3) {
+      time = '00:00:00';
     }
     const [hours, minutes, seconds] = time.split(':').map((str) => parseInt(str, 10));
     const newSelectedDate = new Date(
@@ -92,6 +95,8 @@ export const DatePicker = React.forwardRef<DatePickerMethods, DatePickerProps>((
         </PopoverTrigger>
         <PopoverContent className="w-auto p-0 gap-4" align="start">
           <Calendar
+            toDate={(new Date())}
+            defaultMonth={date}
             mode="single"
             selected={date}
             onSelect={handleSelect}

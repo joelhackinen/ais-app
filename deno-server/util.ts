@@ -1,4 +1,3 @@
-import { datetime } from "./deps.ts";
 import { IMO } from "./types.ts";
 import { AISEntry } from "./types.ts";
 import { TDate, Longitude, Latitude } from "./types.ts";
@@ -31,8 +30,8 @@ export const isTDate = (obj: unknown): obj is TDate => {
     return false;
   }
   try {
-    datetime.parse(obj, "yyyy-MM-dd'T'HH:mm:ss");
-  } catch {
+    Temporal.PlainDateTime.from(obj);
+  } catch (_e) {
     return false;
   }
   return true;

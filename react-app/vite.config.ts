@@ -23,8 +23,13 @@ export default defineConfig(({ command }) =>
       }
     : {
         plugins: [react()],
+        resolve: {
+          alias: {
+            "@": path.resolve(__dirname, "./src"),
+          },
+        },
         server: {
-          port: 3000,
+          port: 80,
           strictPort: true,
         },
         build: {

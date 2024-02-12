@@ -1,18 +1,25 @@
+import { useEffect, useRef, useState } from "react";
 import { Input } from "@/components/ui/input"
 import { DatePicker } from "@/components/ui/datepicker"
-import { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import AISTable from "./AISTable";
-import { AISEntry } from "./types";
 import { DatePickerMethods } from "@/components/ui/datepicker";
+import { Toaster } from "@/components/ui/sonner";
 import { format } from "date-fns";
+import { toast } from "sonner";
+import { AISEntry } from "./types";
+import AISTable from "./AISTable";
 
-export default function Component() {
+
+export default function App() {
   const [data, setData] = useState<Array<AISEntry>>([]);
   const searchRef = useRef<HTMLInputElement>(null);
   const startDateRef = useRef<DatePickerMethods>(null);
   const endDateRef = useRef<DatePickerMethods>(null);
+
+  useEffect(() => {
+    toast("Try to fetch some data!")
+  }, []);
 
   function dateToString(date: Date | undefined): string | undefined {
     if (date) {
@@ -21,9 +28,9 @@ export default function Component() {
     return undefined;
   }
   
-  async function handleSearch() {
-    const startTime = dateToString(startDateRef.current?.getDate());
-    const endTime = dateToString(endDateRef.current?.getDate());
+  const handleSearch = async () => {
+    const startTime = dateToString(startDateRef.current?.getDatetime());
+    const endTime = dateToString(endDateRef.current?.getDatetime());
     const imo = searchRef.current?.value;
 
     const startTimeParam = startTime && `startTime=${startTime}`;
@@ -49,13 +56,14 @@ export default function Component() {
     }
 
     const aisData: AISEntry[] = await response.json();
+    toast(`${aisData.length} results found`)
     setData(aisData);
   }
 
   return (
     <div className="flex flex-col min-w-[480px]">
       <header className="flex flex-nowrap gap-x-4 justify-end py-4 px-4 items-center border-b sticky top-0 z-10 bg-white">
-        <div className="flex flex-col lg:flex-row gap-x-4 gap-y-2">
+        <div className="flex flex-col lg:flex-row gap-x-4 gap-y-3">
           <div className="flex flex-nowrap items-center gap-x-1">
             <Label htmlFor="from">From:</Label>
             <DatePicker id="from" description="Pick start time" ref={startDateRef} />
@@ -65,7 +73,7 @@ export default function Component() {
             <DatePicker id="to" description="Pick end time" ref={endDateRef} />
           </div>
         </div>
-        <div className="flex flex-col md:flex-row gap-x-4 gap-y-2">
+        <div className="flex flex-col md:flex-row gap-x-4 gap-y-3">
           <div className="relative flex">
             <SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500 dark:text-gray-400" />
             <Input
@@ -82,8 +90,21 @@ export default function Component() {
         </div>
       </header>
       <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-10">
-        <AISTable data={data} />
+        {
+          data.length
+            ?
+            <AISTable data={data} />
+            :
+            <div className="flex justify-center w-full p-6 rounded-lg border shadow">
+              <span className="font-semibold text-sm tracking-tight">
+                No results found
+              </span>
+            </div>
+        }
       </main>
+      <footer>
+        <Toaster />
+      </footer>
     </div>
   )
 }

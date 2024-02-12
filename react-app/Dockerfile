@@ -6,6 +6,8 @@ COPY . .
 
 RUN npm ci
 
+RUN npx tailwindcss -i ./src/index.css -o ./src/output.css
+
 RUN npm run build
 
 

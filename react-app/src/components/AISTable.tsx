@@ -1,12 +1,19 @@
-import { TableHead, TableRow, TableHeader, TableCell, TableBody, Table } from "@/components/ui/table"
-import { Card } from "@/components/ui/card"
-import { AISEntry } from "./types";
+import {
+  TableHead,
+  TableRow,
+  TableHeader,
+  TableCell,
+  TableBody,
+  Table,
+} from "@/components/ui/table";
+import { Card } from "@/components/ui/card";
+import { AISEntry } from "../types";
 
 interface AISTableProps {
   data: Array<AISEntry>;
 }
 
-export default function AISTable({ data }: AISTableProps) {
+const AISTable = ({ data }: AISTableProps) => {
   return (
     <Card>
       <Table>
@@ -29,5 +36,7 @@ export default function AISTable({ data }: AISTableProps) {
         </TableBody>
       </Table>
     </Card>
-  )
-}
+  );
+};
+
+export default AISTable;

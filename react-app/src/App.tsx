@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { Input } from "@/components/ui/input"
-import { DatePicker } from "@/components/ui/datepicker"
+import { Input } from "@/components/ui/input";
+import { DatePicker } from "@/components/ui/datepicker";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { DatePickerMethods } from "@/components/ui/datepicker";
@@ -8,26 +8,25 @@ import { Toaster } from "@/components/ui/sonner";
 import { format } from "date-fns";
 import { toast } from "sonner";
 import { AISEntry } from "./types";
-import AISTable from "./AISTable";
+import AISTable from "./components/AISTable";
 
-
-export default function App() {
+const App = () => {
   const [data, setData] = useState<Array<AISEntry>>([]);
   const searchRef = useRef<HTMLInputElement>(null);
   const startDateRef = useRef<DatePickerMethods>(null);
   const endDateRef = useRef<DatePickerMethods>(null);
 
   useEffect(() => {
-    toast("Try to fetch some data!")
+    toast("Try to fetch some data!");
   }, []);
 
-  function dateToString(date: Date | undefined): string | undefined {
+  const dateToString = (date: Date | undefined): string | undefined => {
     if (date) {
-      return format(date, "yyyy-MM-dd'T'HH:mm:ss")
+      return format(date, "yyyy-MM-dd'T'HH:mm:ss");
     }
     return undefined;
-  }
-  
+  };
+
   const handleSearch = async () => {
     const startTime = dateToString(startDateRef.current?.getDatetime());
     const endTime = dateToString(endDateRef.current?.getDatetime());
@@ -40,9 +39,9 @@ export default function App() {
     const searchParamString = [startTimeParam, endTimeParam, imoParam]
       .filter((p): p is string => p !== undefined)
       .join("&");
-    
+
     console.log(searchParamString);
-    
+
     const url = `/api/aisdata?${searchParamString}`;
     const response = await fetch(url, {
       method: "GET",
@@ -56,9 +55,9 @@ export default function App() {
     }
 
     const aisData: AISEntry[] = await response.json();
-    toast(`${aisData.length} results found`)
+    toast(`${aisData.length} results found`);
     setData(aisData);
-  }
+  };
 
   return (
     <div className="flex flex-col min-w-[480px]">
@@ -66,7 +65,11 @@ export default function App() {
         <div className="flex flex-col lg:flex-row gap-x-4 gap-y-3">
           <div className="flex flex-nowrap items-center gap-x-1">
             <Label htmlFor="from">From:</Label>
-            <DatePicker id="from" description="Pick start time" ref={startDateRef} />
+            <DatePicker
+              id="from"
+              description="Pick start time"
+              ref={startDateRef}
+            />
           </div>
           <div className="flex flex-nowrap items-center gap-x-1 self-end">
             <Label htmlFor="to">To:</Label>
@@ -84,33 +87,29 @@ export default function App() {
               ref={searchRef}
             />
           </div>
-          <Button onClick={handleSearch}>
-            Search vessels
-          </Button>
+          <Button onClick={handleSearch}>Search vessels</Button>
         </div>
       </header>
       <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-10">
-        {
-          data.length
-            ?
-            <AISTable data={data} />
-            :
-            <div className="flex justify-center w-full p-6 rounded-lg border shadow">
-              <span className="font-semibold text-sm tracking-tight">
-                No results found
-              </span>
-            </div>
-        }
+        {data.length ? (
+          <AISTable data={data} />
+        ) : (
+          <div className="flex justify-center w-full p-6 rounded-lg border shadow">
+            <span className="font-semibold text-sm tracking-tight">
+              No results found
+            </span>
+          </div>
+        )}
       </main>
-      <footer>
-        <Toaster />
-      </footer>
+      <Toaster />
     </div>
-  )
-}
+  );
+};
+
+export default App;
 
 // @ts-ignore
-function SearchIcon(props) {
+const SearchIcon = (props) => {
   return (
     <svg
       {...props}
@@ -127,5 +126,5 @@ function SearchIcon(props) {
       <circle cx="11" cy="11" r="8" />
       <path d="m21 21-4.3-4.3" />
     </svg>
-  )
-}
+  );
+};

@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import AISTable from "./AISTable";
 import { AISEntry } from "./types";
 import { DatePickerMethods } from "@/components/ui/datepicker";
+import { format } from "date-fns";
 
 export default function Component() {
   const [data, setData] = useState<Array<AISEntry>>([]);
@@ -14,18 +15,15 @@ export default function Component() {
   const endDateRef = useRef<DatePickerMethods>(null);
 
   function dateToString(date: Date | undefined): string | undefined {
-    function pad(n: number): string {
-      return n.toString().padStart(2, "0");
-    }
     if (date) {
-      return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
+      return format(date, "yyyy-MM-dd'T'HH:mm:ss")
     }
     return undefined;
   }
   
   async function handleSearch() {
-    const startTime = dateToString(startDateRef.current?.getValue());
-    const endTime = dateToString(endDateRef.current?.getValue());
+    const startTime = dateToString(startDateRef.current?.getDate());
+    const endTime = dateToString(endDateRef.current?.getDate());
     const imo = searchRef.current?.value;
 
     const startTimeParam = startTime && `startTime=${startTime}`;
@@ -45,6 +43,11 @@ export default function Component() {
         "Content-Type": "application/json",
       },
     });
+
+    if (!response.ok) {
+      return;
+    }
+
     const aisData: AISEntry[] = await response.json();
     setData(aisData);
   }
@@ -66,6 +69,7 @@ export default function Component() {
           <div className="relative flex">
             <SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500 dark:text-gray-400" />
             <Input
+              id="searchImo"
               className="pl-8 w-[160px]"
               placeholder="Search IMO..."
               type="search"

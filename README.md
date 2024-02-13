@@ -6,29 +6,38 @@
     ```
 ---
 ### API endpoints
-1. HTTP  GET `http://localhost:7800/api/aisdata`
-    - takes three search parameters which are all optional:
-      | Param      | Type                   | Example             |
-      | ---------- | ---------------------- | ------------------- |
-      | startTime  | plain datetime         | 2023-01-01T00:00:01 |
-      | endTime    | plain datetime         | 2023-01-13T00:00:01 |
-      | imo        | string, "IMO" + number | IMO12345            |
+#### 1. HTTP  GET `http://localhost:7800/api/aisdata`
+  - takes three search parameters which are all optional:
+    | Param              | Type                   | Example             |
+    | ------------------ | ---------------------- | ------------------- |
+    | startTime: string  | plain datetime         | 2023-01-01T00:00:01 |
+    | endTime: string    | plain datetime         | 2023-01-13T00:00:01 |
+    | imo: string        | "IMO" + number         | IMO12345            |
+  - example:
+    - `http://localhost:7800/api/aisdata?endTime=2023-01-02T00:00:01`
 
-2. HTTP POST `http://localhost:7800/api/aisdata`
-    - request body as JSON
-      ```
-      {
-        "baseDateTime": "2023-01-29T00:00:07",
-        "lat": 50.213123213,
-        "lon": -100.12321,
-        "imo": "IMO1233"
-      }
-      ```
+#### 2. HTTP POST `http://localhost:7800/api/aisdata`
+  - request body as JSON, all fields are mandatory:
+    | Field                | Type                  | Example             |
+    | -------------------- | --------------------- | ------------------- |
+    | baseDateTime: string | plain datetime        | 2023-01-01T00:00:01 |
+    | lat: number          | -90 <= number <= 90   | 88.12345            |
+    | lon: number          | -180 <= number <= 180 | -110.2234           |
+    | imo: string          | "IMO" + number        | IMO12345            |
+  - example:
+    ```
+    {
+      "baseDateTime": "2023-01-01T00:00:01",
+      "lat": 88.12345,
+      "lon": -110.2234,
+      "imo": "IMO12345"
+    }
+    ```
 ---
 
 ### Technologies used
 - Deno with TypeScript for the backend
-  - Built-in TypeScript support, no transpilation step needed, no boilerplate code and almost complete npm package support
+  - Built-in TypeScript support, no transpilation step, no boilerplate code and almost complete npm package support
   - [PostgreSQL client](https://deno.land/x/postgresjs)
   - [oak framework](https://deno.land/x/oak)
 - React with TypeScript
@@ -44,6 +53,6 @@
 
 ### TODO
 - [x] Data validation when reading the file
-- [ ] Unit tests
+- [x] Unit tests
 - [ ] e2e tests
 - [ ] Sticky table header

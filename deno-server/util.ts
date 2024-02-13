@@ -1,6 +1,11 @@
-import { IMO } from "./types.ts";
-import { AISEntry } from "./types.ts";
-import { TDate, Longitude, Latitude } from "./types.ts";
+import {
+  TDate,
+  Longitude,
+  Latitude,
+  IMO,
+  AISEntry
+} from "./types.ts";
+
 
 export const toAISEntry = (obj: unknown) => {
   if (!obj || typeof obj !== "object") {
@@ -31,7 +36,7 @@ export const isTDate = (obj: unknown): obj is TDate => {
   }
   try {
     Temporal.PlainDateTime.from(obj);
-  } catch (_e) {
+  } catch (e) {
     return false;
   }
   return true;
@@ -48,7 +53,7 @@ const parseLongitude = (obj: unknown): Longitude => {
   return obj;
 };
 
-const isLongitude = (obj: unknown): obj is Longitude => {
+export const isLongitude = (obj: unknown): obj is Longitude => {
   return typeof obj === "number" && obj >= -180 && obj <= 180;
 };
 
@@ -59,7 +64,7 @@ const parseLatitude = (obj: unknown): Latitude => {
   return obj;
 };
 
-const isLatitude = (obj: unknown): obj is Latitude => {
+export const isLatitude = (obj: unknown): obj is Latitude => {
   return typeof obj === "number" && obj >= -90 && obj <= 90;
 };
 
@@ -70,6 +75,6 @@ const parseIMO = (obj: unknown): IMO => {
   return obj;
 };
 
-const isIMO = (obj: unknown): obj is IMO => {
-  return typeof obj === "string" && obj.startsWith("IMO") && !isNaN(Number(obj.slice(3)));
+export const isIMO = (obj: unknown): obj is IMO => {
+  return typeof obj === "string" && obj.startsWith("IMO") && obj.slice(3) !== "" && !isNaN(Number(obj.slice(3)));
 };

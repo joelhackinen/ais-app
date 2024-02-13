@@ -22,17 +22,17 @@ services:
     expose:
       - 7777
     depends_on:
-      - db
+      - postgres
     env_file:
       - project.env
 
-  db:
-    image: postgres:14.1
-    restart: "no"
-    volumes:
-      - ./database/ais-data.csv:/ais-data.csv:ro
-      - ./database/db-init.sql/:/docker-entrypoint-initdb.d/db-init.sql
+  postgres:
+    image: postgres
     container_name: postgres
+    build:
+      context: ./database
+      dockerfile: Dockerfile
+    restart: "no"
     env_file:
       - project.env
   

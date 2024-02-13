@@ -65,6 +65,7 @@ export const DatePicker = React.forwardRef<DatePickerMethods, DatePickerProps>(
 
     const handleResetDate = () => {
       setSelected(undefined);
+      setDateInputValue("");
       setTimeValue("00:00:00");
     };
 

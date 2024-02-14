@@ -1,7 +1,7 @@
 import {
   assert,
   assertEquals,
-  assertThrows
+  assertThrows,
 } from "https://deno.land/std@0.215.0/assert/mod.ts";
 
 import {
@@ -50,8 +50,10 @@ Deno.test("toAISEntry - invalid input", () => {
 Deno.test("isTDate", () => {
   assert(isTDate("2024-02-13T12:00:00"));
   assert(isTDate("2023-01-01T00:00:00"));
-  assert(!isTDate("2021-02-29T12:00:00")); // fails in tests, but works in production???
-  assert(!isTDate("2024-02-22"));
+  assert(!isTDate("2021-02-29T12:00:00"));
+  assert(!isTDate("2021-02-28"));
+  assert(!isTDate("2021-02-28T"));
+  assert(!isTDate("2021-02-28T12"));
   assert(!isTDate("2024-02-22T25:00:00"));
   assert(!isTDate("2024-02-22T23:61:00"));
   assert(!isTDate("2024-02-22T24:01:00"));

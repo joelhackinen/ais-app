@@ -25,7 +25,7 @@ services:
     expose:
       - 7777
     depends_on:
-      - db
+      - postgres
     env_file:
       - project.env
 

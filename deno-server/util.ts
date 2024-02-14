@@ -34,8 +34,13 @@ export const isTDate = (obj: unknown): obj is TDate => {
   if (typeof obj !== "string") {
     return false;
   }
+  const [date, time] = obj.split("T");
+  if (!date || date.split("-").length !== 3 || !time || time.split(":").length !== 3) {
+    return false;
+  }
+
   try {
-    Temporal.PlainDateTime.from(obj);
+    Temporal.PlainDateTime.from(obj, { overflow: "reject", });
   } catch (e) {
     return false;
   }

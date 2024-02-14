@@ -37,7 +37,9 @@ router.get("/aisdata", async ({ request, response }) => {
         ${imo ? sql`imo = ${imo} AND` : sql``}
         basedatetime >= COALESCE(${startTime}, '-infinity')::TIMESTAMP
           AND
-        basedatetime <= COALESCE(${endTime}, 'infinity')::TIMESTAMP;
+        basedatetime <= COALESCE(${endTime}, 'infinity')::TIMESTAMP
+      ORDER BY
+        basedatetime;
     `;
   } catch (error) {
     let errorMessage;

@@ -42,6 +42,7 @@
   - [oak framework](https://deno.land/x/oak)
 - React with TypeScript
   - [shadcn](https://ui.shadcn.com/) for UI-components, which I tailored for the app's need
+  - TailwindCSS for styling
 - Database runs on PostgreSQL, utilizing official [PostgreSQL image](https://hub.docker.com/_/postgres)
 - Docker and Docker Compose for development and production environments
   - The easiest way to run all the services simultaneously
@@ -49,10 +50,11 @@
   - [nginx](https://hub.docker.com/_/nginx) used as reverse proxy and to serve the React app to the client
   - Platform agnostic (in theory)
 - Python utilized to read and validate the data
+- Playwright for e2e tests
 ---
 
 ### TODO
 - [x] Data validation when reading the file
 - [x] Unit tests
-- [ ] e2e tests
+- [x] e2e tests
 - [ ] Sticky table header

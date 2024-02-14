@@ -98,6 +98,7 @@ export const DatePicker = React.forwardRef<DatePickerMethods, DatePickerProps>(
     return (
       <div className="relative pr-3">
         <TrashBin
+          id={`${id}-trash`}
           onClick={handleResetDate}
           className="absolute right-1 top-0 w-4 h-4 hover:text-red-500 rounded-lg bg-white"
         />

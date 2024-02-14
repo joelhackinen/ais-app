@@ -97,6 +97,7 @@ const App = () => {
             />
           </div>
           <Button
+            id="searchButton"
             className="hover:shadow-md"
             onClick={handleSearch}
           >

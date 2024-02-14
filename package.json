@@ -1,0 +1,17 @@
+{
+  "name": "napa-assignment",
+  "version": "1.0.0",
+  "description": "- `git clone` the repo and `cd` into it - Run locally with Docker to expose the application at `http://localhost:7800`:     ```     docker compose up -d --build     ``` --- ### API endpoints #### 1. HTTP  GET `http://localhost:7800/api/aisdata`   - takes three search parameters which are all optional:     | Param              | Type                   | Example             |     | ------------------ | ---------------------- | ------------------- |     | startTime: string  | plain datetime         | 2023-01-01T00:00:01 |     | endTime: string    | plain datetime         | 2023-01-13T00:00:01 |     | imo: string        | \"IMO\" + number         | IMO12345            |   - example:     - `http://localhost:7800/api/aisdata?endTime=2023-01-02T00:00:01`",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.41.2",
+    "@types/node": "^20.11.17"
+  }
+}

@@ -22,6 +22,7 @@ import {
 } from "../util.ts";
 
 
+// --unstable-temporal needed
 Deno.test("toAISEntry - valid input", () => {
   const input = {
     baseDateTime: "2024-02-13T12:00:00",
@@ -47,6 +48,7 @@ Deno.test("toAISEntry - invalid input", () => {
   assertThrows(() => toAISEntry(invalidInput), Error, "Incorrect or missing data");
 });
 
+// --unstable-temporal needed
 Deno.test("isTDate", () => {
   assert(isTDate("2024-02-13T12:00:00"));
   assert(isTDate("2023-01-01T00:00:00"));

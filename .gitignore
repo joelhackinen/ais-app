@@ -3,3 +3,7 @@ app-cache
 output.css
 node_modules
 dist
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/

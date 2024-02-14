@@ -30,6 +30,10 @@ const App = () => {
   const handleSearch = async () => {
     const startTime = dateToString(startDateRef.current?.getDatetime());
     const endTime = dateToString(endDateRef.current?.getDatetime());
+    if (endTime && startTime && endTime < startTime) {
+      toast("Invalid date interval");
+      return;
+    }
     const imo = searchRef.current?.value;
 
     const startTimeParam = startTime && `startTime=${startTime}`;
@@ -49,14 +53,15 @@ const App = () => {
         "Content-Type": "application/json",
       },
     });
+    const aisData = await response.json();
 
     if (!response.ok) {
+      toast("Unexpected error");
       return;
     }
-
-    const aisData: AISEntry[] = await response.json();
+    
     toast(`${aisData.length} results found`);
-    setData(aisData);
+    setData(aisData as AISEntry[]);
   };
 
   return (
@@ -73,7 +78,11 @@ const App = () => {
           </div>
           <div className="flex flex-nowrap items-center gap-x-1 self-end">
             <Label htmlFor="to">To:</Label>
-            <DatePicker id="to" description="Pick end time" ref={endDateRef} />
+            <DatePicker
+              id="to"
+              description="Pick end time"
+              ref={endDateRef}
+            />
           </div>
         </div>
         <div className="flex flex-col md:flex-row gap-x-4 gap-y-3">
@@ -87,15 +96,20 @@ const App = () => {
               ref={searchRef}
             />
           </div>
-          <Button onClick={handleSearch}>Search vessels</Button>
+          <Button
+            className="hover:shadow-md"
+            onClick={handleSearch}
+          >
+            Search vessels
+          </Button>
         </div>
       </header>
       <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-10">
         {data.length ? (
           <AISTable data={data} />
         ) : (
-          <div className="flex justify-center w-full p-6 rounded-lg border shadow">
-            <span className="font-semibold text-sm tracking-tight">
+          <div className="flex w-full mt-6 justify-center">
+            <span className="font-semibold text-sm rounded-lg border shadow py-6 px-8">
               No results found
             </span>
           </div>

@@ -69,6 +69,10 @@ export const DatePicker = React.forwardRef<DatePickerMethods, DatePickerProps>(
       setTimeValue("00:00:00");
     };
 
+    const showWarning = dateInputValue !== "" && !isValid(
+      parse(dateInputValue, "dd-MM-yyyy", new Date()),
+    );
+
     React.useImperativeHandle(ref, () => {
       return {
         getDatetime: () => {
@@ -119,6 +123,10 @@ export const DatePicker = React.forwardRef<DatePickerMethods, DatePickerProps>(
           </PopoverTrigger>
           <PopoverContent className="w-auto p-0 gap-4" align="start">
             <Calendar
+              className={cn(
+                "border rounded-md",
+                showWarning && "border-red-500"
+              )}
               toDate={new Date()}
               defaultMonth={selected}
               mode="single"
@@ -131,11 +139,7 @@ export const DatePicker = React.forwardRef<DatePickerMethods, DatePickerProps>(
                     <Input
                       className={cn(
                         "w-[120px]",
-                        !isValid(
-                          parse(dateInputValue, "dd-MM-yyyy", new Date()),
-                        ) &&
-                          dateInputValue !== "" &&
-                          "border-red-400",
+                        showWarning && "border-red-500"
                       )}
                       id={`${id}-date`}
                       type="text"

@@ -69,9 +69,9 @@ export const DatePicker = React.forwardRef<DatePickerMethods, DatePickerProps>(
       setTimeValue("00:00:00");
     };
 
-    const showWarning = dateInputValue !== "" && !isValid(
-      parse(dateInputValue, "dd-MM-yyyy", new Date()),
-    );
+    const showWarning =
+      dateInputValue !== "" &&
+      !isValid(parse(dateInputValue, "dd-MM-yyyy", new Date()));
 
     React.useImperativeHandle(ref, () => {
       return {
@@ -126,7 +126,7 @@ export const DatePicker = React.forwardRef<DatePickerMethods, DatePickerProps>(
             <Calendar
               className={cn(
                 "border rounded-md",
-                showWarning && "border-red-500"
+                showWarning && "border-red-500",
               )}
               toDate={new Date()}
               defaultMonth={selected}
@@ -140,7 +140,7 @@ export const DatePicker = React.forwardRef<DatePickerMethods, DatePickerProps>(
                     <Input
                       className={cn(
                         "w-[120px]",
-                        showWarning && "border-red-500"
+                        showWarning && "border-red-500",
                       )}
                       id={`${id}-date`}
                       type="text"

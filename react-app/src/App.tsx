@@ -31,7 +31,7 @@ const App = () => {
     const startTime = dateToString(startDateRef.current?.getDatetime());
     const endTime = dateToString(endDateRef.current?.getDatetime());
     if (endTime && startTime && endTime < startTime) {
-      toast("Invalid date interval");
+      toast("Invalid date interval. 'To' can't be sooner than 'from'.");
       return;
     }
     const imo = searchRef.current?.value;
@@ -59,14 +59,14 @@ const App = () => {
       toast("Unexpected error");
       return;
     }
-    
+
     toast(`${aisData.length} results found`);
     setData(aisData as AISEntry[]);
   };
 
   return (
-    <div className="flex flex-col min-w-[480px]">
-      <header className="flex flex-nowrap gap-x-4 justify-end py-4 px-4 items-center border-b sticky top-0 z-10 bg-white">
+    <div className="flex flex-col min-w-[485px] lg:max-w-[1024px] lg:m-auto">
+      <header className="flex flex-nowrap gap-x-4 justify-center py-4 px-4 items-center border-b sticky top-0 z-10 bg-white">
         <div className="flex flex-col lg:flex-row gap-x-4 gap-y-3">
           <div className="flex flex-nowrap items-center gap-x-1">
             <Label htmlFor="from">From:</Label>
@@ -78,14 +78,10 @@ const App = () => {
           </div>
           <div className="flex flex-nowrap items-center gap-x-1 self-end">
             <Label htmlFor="to">To:</Label>
-            <DatePicker
-              id="to"
-              description="Pick end time"
-              ref={endDateRef}
-            />
+            <DatePicker id="to" description="Pick end time" ref={endDateRef} />
           </div>
         </div>
-        <div className="flex flex-col md:flex-row gap-x-4 gap-y-3">
+        <div className="flex flex-col lg:flex-row gap-x-4 gap-y-3">
           <div className="relative flex">
             <SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500 dark:text-gray-400" />
             <Input
@@ -97,7 +93,7 @@ const App = () => {
             />
           </div>
           <Button
-            id="searchButton"
+            id="search-button"
             className="hover:shadow-md"
             onClick={handleSearch}
           >
